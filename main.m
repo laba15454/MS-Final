@@ -22,7 +22,7 @@ function varargout = main(varargin)
 
 % Edit the above text to modify the response to help main
 
-% Last Modified by GUIDE v2.5 18-Jun-2014 14:32:55
+% Last Modified by GUIDE v2.5 18-Jun-2014 16:30:35
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,6 +54,9 @@ function main_OpeningFcn(hObject, eventdata, handles, varargin)
 other = handles.checkbox_easy;
 set(other,'Value',get(other,'Max'));
 global glassPitch;
+global wave
+global fs
+[wave fs] = wavread('glass565Hz_Cut.wav');
 glassPitch = 74;
 global difficulty;
 difficulty=0.05;
@@ -96,6 +99,7 @@ function start_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global energy;
+global y;
 energy = 0;
 %checkbox_easy_Callback(hObject, eventdata, handles);
 
@@ -207,3 +211,48 @@ function checkbox_middle_Callback(hObject, eventdata, handles)
 global difficulty;
 MyCheckboxCallback(hObject, eventdata, handles);
 difficulty=0.03;
+
+
+% --- Executes on button press in Keydown.
+function KeyDown_Callback(hObject, eventdata, handles)
+% hObject    handle to Keydown (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global glassPitch
+global wave
+global fs
+global y
+if ~isempty(y)&&isrecording(y)
+    stop(y);
+end
+glassPitch = glassPitch -1;
+opt.method = 'phaseVocoder';
+opt.pitchShiftAmount = -1;
+wObj.signal = wave;
+wObj.fs = fs;
+wObj2 = pitchShift(wObj,opt,0);
+wave = wObj2.signal;
+fs = wObj2.fs;
+sound(wave,fs);
+
+% --- Executes on button press in KeyUp.
+function KeyUp_Callback(hObject, eventdata, handles)
+% hObject    handle to KeyUp (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global glassPitch
+global wave
+global fs
+global y
+if ~isempty(y)&&isrecording(y)
+    stop(y);
+end
+glassPitch = glassPitch +1;
+opt.method = 'phaseVocoder';
+opt.pitchShiftAmount = 1;
+wObj.signal = wave;
+wObj.fs = fs;
+wObj2 = pitchShift(wObj,opt,0);
+wave = wObj2.signal;
+fs = wObj2.fs;
+sound(wave,fs);
