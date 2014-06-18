@@ -56,9 +56,6 @@ set(other,'Value',get(other,'Max'));
 global glassPitch;
 global wave
 global fs
-global im;
-global map;
-[im map] = imread('shaking.gif');
 [wave fs] = wavread('glass565Hz_Cut.wav');
 glassPitch = 74;
 global difficulty;
@@ -105,8 +102,6 @@ global energy;
 global y;
 global timer
 global timer1
-global im
-global map
 timer1 = 0;
 timer = 0;
 energy = 0;
@@ -116,10 +111,9 @@ fs = 16000;
 y = audiorecorder(fs,8,1);
 y.TimerFcn = @evaluate;
 y.TimerPeriod = 1;
-set(findall(get(gcf,'children'),'tag','axes1'),'Visible','on');
-%set(findall(get(gcf,'children'),'tag','text1'),'Visible','on');
-set(findall(get(gcf,'children'),'tag','text1'),'String','§¹¦n¦pªìªº¬Á¼þªM');
-imshow(im,map);
+set(handles.axes1,'Visible','on');
+set(handles.text1,'Visible','on');
+
 recordblocking(y,30);
 disp('finish');
 
@@ -158,24 +152,21 @@ omega1=omega1./glassPitch;
 y=1./(abs(1-(omega1).^2)+difficulty);
 %plot(omega1,y);
 
-if energy > 10000
+if energy > 200
     timer = timer+1;
     set(textHandle,'String','·n®Ìªº¬Á¼þªM');
     if timer == 1
-        gifplayer('shaking.gif',0.1,true);
+        gifplayer('shaking.gif',0.1);
     end
 end
-if energy > 20000
+if energy > 1000
     timer1 = timer1+1;
     set(textHandle,'String','¯}¸Hªº¬Á¼þªM');
-    if timer1 == 1
-        gifplayer('break2.gif',0.1,false);
-    end
-    stop(obj);
+    gifplayer('break.gif',0.1);
 end
 
 for i = 1:length(f)
-    %fprintf('f = %f\n',f(i));
+    fprintf('f = %f\n',f(i));
     %{
     if abs(f(i) -glassPitch) < 2
         energy = energy + volume(i);
