@@ -22,7 +22,7 @@ function varargout = main(varargin)
 
 % Edit the above text to modify the response to help main
 
-% Last Modified by GUIDE v2.5 16-Jun-2014 22:25:39
+% Last Modified by GUIDE v2.5 18-Jun-2014 13:57:07
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -145,3 +145,40 @@ for i = 1:length(f)
 end
 %}
 fprintf('energy = %f\n',energy);
+
+
+function MyCheckboxCallback(hObject, eventdata, handles)
+other = setdiff(get(handles.uipanel1,'Children'),hObject);
+for ii = 1:length(other)
+    set(other(ii),'Value',get(other(ii),'Min'));
+end
+
+% --- Executes on button press in checkbox_easy.
+function checkbox_easy_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_easy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox_easy
+MyCheckboxCallback(hObject, eventdata, handles);
+
+
+
+% --- Executes on button press in checkbox_hard.
+function checkbox_hard_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_hard (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox_hard
+MyCheckboxCallback(hObject, eventdata, handles);
+
+
+% --- Executes on button press in checkbox_middle.
+function checkbox_middle_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_middle (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox_middle
+MyCheckboxCallback(hObject, eventdata, handles);
