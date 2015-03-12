@@ -119,7 +119,7 @@ y.TimerPeriod = 1;
 set(findall(get(gcf,'children'),'tag','axes1'),'Visible','on');
 %set(findall(get(gcf,'children'),'tag','text1'),'Visible','on');
 set(findall(get(gcf,'children'),'tag','text1'),'String','完好如初的玻璃杯');
-imshow(im,map);
+%imshow(im,map);
 recordblocking(y,30);
 disp('finish');
 
